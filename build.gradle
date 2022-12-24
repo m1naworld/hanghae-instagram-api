@@ -27,11 +27,15 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-
+    // MySQL dependency 추가
     implementation 'mysql:mysql-connector-java:8.0.28'
 
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+// CI / CD 설정
+jar {
+    enabled = false
 }
