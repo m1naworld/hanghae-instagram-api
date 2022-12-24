@@ -1,6 +1,8 @@
 package com.hanghae.instagram.common.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -10,12 +12,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 // 1-2. assignableTypes: ExceptionHandler가 적용되는 범위를 지정, 조건을 과하게 걸면 성능에 매우 안좋은 영향을 끼칠 수 있다.
 @RestControllerAdvice
 // 2. ResponseEntityExceptionHandler를 extend한 CustomExceptionHandler 선언
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     // 3. ExceptionHandler가 적용될 Exception의 종류를 명시(CustomException)
-//    @ExceptionHandler(value = { CustomException.class }
-//            // 4. ResponseEntity 형식으로 ErrorResponse를 변환하여 반환.
-//            public ResponseEntity<ErrorResponse> handleCustomException(CustomException e) {
-//        log.error("handleCustomException throw CustomException : {}", e.getErrorCode());
-//        return ErrorResponse.toResponseEntity(e.getErrorCode());
-//    }
+    @ExceptionHandler(value = { CustomException.class })
+            // 4. ResponseEntity 형식으로 ErrorResponse를 변환하여 반환.
+            public ResponseEntity<ErrorResponse> handleCustomException(CustomException e) {
+        log.error("handleCustomException throw CustomException : {}", e.getErrorCode());
+        return ErrorResponse.toResponseEntity(e.getErrorCode());
+    }
 }
