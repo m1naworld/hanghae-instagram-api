@@ -3,17 +3,21 @@ package com.hanghae.instagram.posting.entity;
 import com.hanghae.instagram.comment.entity.Comment;
 import com.hanghae.instagram.common.entity.Timestamped;
 import com.hanghae.instagram.member.entity.Member;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
+@NoArgsConstructor
 public class Posting extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(nullable = false)
     private String contents;
@@ -26,6 +30,14 @@ public class Posting extends Timestamped {
     private Member member;
 
     @OneToMany(mappedBy = "posting", fetch = FetchType.LAZY)
-    private List<Comment> commentList = new ArrayList<>();
+    private List<PostingHashTag> postingHashTagList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "posting", fetch = FetchType.LAZY)
+    private List<PostingMemberTag> postingMemberTagList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "posting", fetch = FetchType.LAZY)
+    private List<PostingImg> postingImgList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "posting", fetch = FetchType.LAZY)
+    private List<Comment> commentList = new ArrayList<>();
 }
