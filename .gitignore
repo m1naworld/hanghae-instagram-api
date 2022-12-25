@@ -36,9 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 
-gradle
-gradlew
-gradlew.bat
-
 ### MySQL
 src/main/resources/application-mysql.properties
