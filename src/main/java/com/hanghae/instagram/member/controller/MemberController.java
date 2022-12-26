@@ -2,6 +2,7 @@ package com.hanghae.instagram.member.controller;
 
 import com.hanghae.instagram.common.response.SuccessCode;
 import com.hanghae.instagram.common.response.SuccessResponse;
+import com.hanghae.instagram.member.dto.RequestLoginMemberDto;
 import com.hanghae.instagram.member.dto.RequestSignupMemberDto;
 import com.hanghae.instagram.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/member")
@@ -23,4 +26,11 @@ public class MemberController {
         memberService.signUp(requestSignupMemberDto);
         return SuccessResponse.toResponseEntity(SuccessCode.SIGNUP_USER_SUCCESS);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody RequestLoginMemberDto requestLoginMemberDto, HttpServletResponse response) {
+        memberService.login(requestLoginMemberDto, response);
+        return SuccessResponse.toResponseEntity(SuccessCode.LOGIN_USER_SUCCESS);
+    }
+
 }

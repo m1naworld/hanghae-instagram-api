@@ -24,6 +24,7 @@ public enum ErrorCode {
     UNAUTHORIZED_USER(UNAUTHORIZED, "작성자만 삭제/수정할 수 있습니다."),
 
     /* 404 NOT_FOUND : Resource 를 찾을 수 없음 */
+    EMAIL_NOT_FOUND(NOT_FOUND, "존재하지 않는 이메일입니다."),
     MEMBER_NOT_FOUND(NOT_FOUND, "해당 유저 정보를 찾을 수 없습니다"),
     COMMENT_NOT_FOUND(NOT_FOUND, "해당 댓글을 찾을 수 없습니다"),
     FORUM_NOT_FOUND(NOT_FOUND, "해당 게시글을 찾을 수 없습니다"),
@@ -32,14 +33,6 @@ public enum ErrorCode {
     /* 409 CONFLICT : Resource 의 현재 상태와 충돌. 보통 중복된 데이터 존재 */
     DUPLICATE_EMAIL(CONFLICT, "중복된 이메일입니다."),
     DUPLICATE_NICKNAME(CONFLICT, "중복된 닉네임입니다.");
-
-
-
-
-
-
-
-
 
     // field
     private final HttpStatus httpStatus;
