@@ -1,8 +1,16 @@
 package com.hanghae.instagram.member.entity;
 
-import javax.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 
-@Entity
+import javax.persistence.*;
+import javax.sql.DataSource;
+
+@Entity(name = "member")
+@NoArgsConstructor
+@Getter
 public class Member {
 
     @Id
@@ -18,21 +26,29 @@ public class Member {
     @Column(nullable = false, unique = true)
     private String nickname;
 
-    @Column(nullable = false)
+    @Column
     private String profileImg;
 
     @Column
     private String introduce;
 
-    @Column(nullable = false)
+    @Column
     private int followerCount;
 
-    @Column(nullable = false)
+   @Column
     private int followingCount;
 
-    @Column(nullable = false)
-    private boolean activated;
+    @Column
+    private boolean activated = true;
 
+    @Builder
+    public Member(String email, String password, String nickname, String introduce) {
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+        this.introduce = introduce;
+//        this.activated = activated;
+    }
 
 
 }
