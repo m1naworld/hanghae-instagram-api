@@ -2,13 +2,14 @@ package com.hanghae.instagram.member.service;
 
 import com.hanghae.instagram.common.exception.CustomException;
 import com.hanghae.instagram.common.exception.ErrorCode;
-import com.hanghae.instagram.jwt.JwtUtil;
+import com.hanghae.instagram.security.jwt.JwtUtil;
 import com.hanghae.instagram.member.dto.RequestLoginMemberDto;
 import com.hanghae.instagram.member.dto.RequestSignupMemberDto;
 import com.hanghae.instagram.member.entity.Member;
 import com.hanghae.instagram.member.mapper.MemberMapper;
 import com.hanghae.instagram.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +24,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
     private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void signUp(RequestSignupMemberDto requestSignupMemberDto) {
@@ -35,11 +37,11 @@ public class MemberService {
         //최소 8자 이상 12이하로 영문자 대문자, 영문자 소문자, 숫자, 특수문자가 각각 최소 1개 이상
 
 
-        if(!emailPattern.matcher(email).find()){
+        if (!emailPattern.matcher(email).find()) {
             throw new CustomException(ErrorCode.INVALID_EMAIL);
         }
 
-        if(!pwPattern.matcher(requestSignupMemberDto.getPassword()).find()){
+        if (!pwPattern.matcher(requestSignupMemberDto.getPassword()).find()) {
             throw new CustomException(ErrorCode.INVALID_PASSWORD);
         }
 
@@ -53,7 +55,7 @@ public class MemberService {
             throw new CustomException(ErrorCode.DUPLICATE_NICKNAME);
         }
 
-        if(requestSignupMemberDto.getEmail()==null || requestSignupMemberDto.getNickname()==null){
+        if (requestSignupMemberDto.getEmail() == null || requestSignupMemberDto.getNickname() == null) {
             throw new CustomException(ErrorCode.REQUIRED_ALL);
 
         }
@@ -65,22 +67,22 @@ public class MemberService {
     @Transactional
     public void login(RequestLoginMemberDto requestLoginMemberDto, HttpServletResponse response) {
 
-            String email = requestLoginMemberDto.getEmail();
-            String password = requestLoginMemberDto.getPassword();
+        String email = requestLoginMemberDto.getEmail();
+        String password = requestLoginMemberDto.getPassword();
 
-            Member member = memberRepository.findByEmail(email).orElseThrow(
-                    ()-> new CustomException(ErrorCode.EMAIL_NOT_FOUND)
+        Member member = memberRepository.findByEmail(email).orElseThrow(
+                () -> new CustomException(ErrorCode.EMAIL_NOT_FOUND)
 
-            );
+        );
 
-            if (!member.getPassword().equals(password)){
-                throw new CustomException(ErrorCode.INCORRECT_PASSWORD);
-            }
-
-            response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(member.getEmail()));
+        if (!passwordEncoder.matches(password, member.getPassword())){
+            throw new CustomException(ErrorCode.INCORRECT_PASSWORD);
         }
 
-        }
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(member.getEmail()));
+    }
+
+}
 
 
 
