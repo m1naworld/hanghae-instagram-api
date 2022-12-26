@@ -33,8 +33,8 @@ public class MemberService {
         String email = requestSignupMemberDto.getEmail();
 
         Pattern emailPattern = Pattern.compile("^([\\w\\.\\_\\-])*[a-zA-Z0-9]+([\\w\\.\\_\\-])*([a-zA-Z0-9])+([\\w\\.\\_\\-])+@([a-zA-Z0-9]+\\.)+[a-zA-Z0-9]{2,8}$");
-        Pattern pwPattern = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,12}$");
-        //최소 8자 이상 12이하로 영문자 대문자, 영문자 소문자, 숫자, 특수문자가 각각 최소 1개 이상
+        Pattern pwPattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,12}$");
+        //최소 6 자, 최소 하나의 문자 및 하나의 숫자 :
 
 
         if (!emailPattern.matcher(email).find()) {
