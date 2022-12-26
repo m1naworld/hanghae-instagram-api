@@ -12,9 +12,10 @@ import static org.springframework.http.HttpStatus.*;
 // 2. Custom Exception의 Field로 사용될 Enum 값 정의
 public enum ErrorCode {
     // 200 : 잘못된 요청
-    INVALID_USERNAME(OK, "유효하지 않은 유저이름입니다."),
+    INVALID_EMAIL(OK, "유효하지 않은 이메일입니다."),
     INVALID_PASSWORD(OK, "유효하지 않은 비밀번호입니다."),
     INCORRECT_PASSWORD(OK, "비밀번호가 일치하지 않습니다."),
+    REQUIRED_ALL(OK,"모든 항목이 필수값입니다."), // 에러코드 고민해봐야 겠음
 
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
     JWT_NOT_FOUND(UNAUTHORIZED, "토큰이 존재하지 않습니다."),
@@ -29,7 +30,16 @@ public enum ErrorCode {
     REFRESH_TOKEN_NOT_FOUND(NOT_FOUND, "로그아웃 된 사용자입니다"),
 
     /* 409 CONFLICT : Resource 의 현재 상태와 충돌. 보통 중복된 데이터 존재 */
-    DUPLICATE_USERNAME(CONFLICT, "중복된 유저이름입니다.");
+    DUPLICATE_EMAIL(CONFLICT, "중복된 이메일입니다."),
+    DUPLICATE_NICKNAME(CONFLICT, "중복된 닉네임입니다.");
+
+
+
+
+
+
+
+
 
     // field
     private final HttpStatus httpStatus;
