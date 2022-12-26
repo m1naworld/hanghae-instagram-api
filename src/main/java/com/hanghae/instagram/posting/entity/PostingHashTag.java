@@ -1,5 +1,6 @@
 package com.hanghae.instagram.posting.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,9 +15,17 @@ public class PostingHashTag {
     private long id;
 
     @Column(nullable = false)
-    private String memberNickname;
+    private String hashtag;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POSTING_ID", nullable = false)
     private Posting posting;
+
+    @Builder
+    public PostingHashTag(String hashtag, Posting posting) {
+        this.hashtag = hashtag;
+        this.posting = posting;
+
+//        posting.getPostingHashTagList().add(this);
+    }
 }
