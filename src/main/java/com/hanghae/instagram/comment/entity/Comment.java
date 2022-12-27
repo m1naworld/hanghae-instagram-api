@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 public class Comment extends Timestamped {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,6 +39,10 @@ public class Comment extends Timestamped {
         this.likeCount = getLikeCount();
         this.parentCommentId = getParentCommentId();
         this.id = postingId;
+    }
+
+    public void updateLikeCount(int likeCount){
+        this.likeCount = likeCount;
 
     }
 }

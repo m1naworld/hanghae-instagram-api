@@ -44,4 +44,8 @@ public class Posting extends Timestamped {
         this.contents = contents;
         this.member = member;
     }
+   
+    public void updateLikeCount(int likeCount){
+        this.likeCount = likeCount;
+    }
 }
