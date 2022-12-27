@@ -11,7 +11,9 @@ import static org.springframework.http.HttpStatus.OK;
 public enum SuccessCode {
     // User
     SIGNUP_USER_SUCCESS(OK, "회원 가입 성공"),
-    LOGIN_USER_SUCCESS(OK, "유저 로그인 성공");
+    LOGIN_USER_SUCCESS(OK, "유저 로그인 성공"),
+    CREATE_POSTING_SUCCESS(OK, "포스팅 등록 성공"),
+    SHOW_POSTING_SUCCESS(OK, "전체 포스팅 조회 성공");
 
     private final HttpStatus httpStatus;
     private final String message;
