@@ -78,10 +78,10 @@ public class PostingService {
     }
 
     @Transactional(readOnly = true)
-    public List<ResponseShowPostingDto> showPosting(Pageable pageable){
+    public List<ResponseShowPostingDto> showPosting(Pageable pageable, String nickname){
         List<ResponseShowPostingDto> responseShowPostingDtoList = new ArrayList<>();
 
-        List<Posting> postingList = postingRepository.findAllByOrderByLikeCount(pageable);
+        List<Posting> postingList = postingRepository.findAllByOrderByLikeCountDesc(pageable);
         List<ShowPostingDto> showPostingDtoList = new ArrayList<>();
         for (Posting posting : postingList) {
             // 1. HashTag 정보 가져오기
@@ -116,7 +116,7 @@ public class PostingService {
             }
 
             // 4. ShowPostingDto 형식으로 변환하고 리스트에 추가하기
-            showPostingDtoList.add(showPostingMapper.toDto(posting, imgList, hashtagList, membertagList));
+            showPostingDtoList.add(showPostingMapper.toDto(posting, imgList, hashtagList, membertagList, nickname));
         }
 
         for (ShowPostingDto showPostingDto : showPostingDtoList) {
