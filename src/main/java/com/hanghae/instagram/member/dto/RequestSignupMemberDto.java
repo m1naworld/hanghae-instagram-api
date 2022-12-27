@@ -12,7 +12,7 @@ public class RequestSignupMemberDto {
 
     private String nickname;
 
-    private String introduce;
+    private String username;
 
 
 }
