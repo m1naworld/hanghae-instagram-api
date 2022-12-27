@@ -12,7 +12,7 @@ import com.hanghae.instagram.like.repository.CommentLikeRepository;
 import com.hanghae.instagram.like.repository.PostingLikeRepository;
 
 import com.hanghae.instagram.posting.entity.Posting;
-import com.hanghae.instagram.posting.entity.PostingRepository;
+import com.hanghae.instagram.posting.repository.PostingRepository;
 
 import lombok.RequiredArgsConstructor;
 
