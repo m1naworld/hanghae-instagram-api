@@ -37,7 +37,6 @@ public class LikeService {
     public ResponseLikeDto changePostingLikeState(RequestLikeDto requestLike, Long postingId, String nickname) {
 
         boolean like = requestLike.isLike();
-        System.out.println(like);
         // 좋아요 취소
         if (like) {
             PostingLike postingLikeFind = postingLikeRepository.findPostingLikeByNicknameAndPostingId(nickname, postingId)

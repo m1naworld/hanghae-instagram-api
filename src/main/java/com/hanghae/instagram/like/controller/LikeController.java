@@ -29,8 +29,6 @@ public class LikeController {
     @PostMapping("/posting/{postingId}")
     public ResponseEntity<DataResponse<ResponseLikeDto>> changePostingLikeState(@PathVariable Long postingId, @RequestBody RequestLikeDto requestLike) {
         String nickname = "mina"; // 임시
-        System.out.println(requestLike);
-        System.out.println(requestLike.isLike());
         ResponseLikeDto responseLike = likeService.changePostingLikeState(requestLike, postingId, nickname);
 
         if (responseLike.isLike()) {
