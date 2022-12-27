@@ -23,5 +23,7 @@ public class PostingLike {
     public PostingLike(String nickname, Posting posting) {
         this.nickname = nickname;
         this.posting = posting;
+
+        posting.getPostingLikeList().add(this);
     }
 }
