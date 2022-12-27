@@ -14,5 +14,7 @@ public class RequestSignupMemberDto {
 
     private String username;
 
+    private String profileImg;
+
 
 }

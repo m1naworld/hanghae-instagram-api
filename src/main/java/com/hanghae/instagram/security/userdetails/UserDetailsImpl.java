@@ -14,9 +14,12 @@ public class UserDetailsImpl implements UserDetails {
     private final Member member;
     private final String email;
 
-    public UserDetailsImpl(Member member, String email) {
+    private final String profileImg;
+
+    public UserDetailsImpl(Member member, String email, String profileImg) {
         this.member = member;
         this.email = email;
+        this.profileImg = profileImg;
     }
 
     public Member getMember() {
@@ -38,6 +41,9 @@ public class UserDetailsImpl implements UserDetails {
         return this.email;
     }
 
+    public String getProfileImg() {
+        return this.profileImg;
+    }
     @Override
     public String getPassword() {
         return null;
