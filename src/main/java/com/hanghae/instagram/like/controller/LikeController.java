@@ -24,7 +24,7 @@ import static com.hanghae.instagram.common.response.SuccessCode.LIKE_SUCCESS;
 @RequiredArgsConstructor
 public class LikeController {
 
-    private LikeService likeService;
+    private final LikeService likeService;
 
     @PostMapping("/posting/{postingId}")
     public ResponseEntity<DataResponse<ResponseLikeDto>> changePostingLikeState(@PathVariable Long postingId, @RequestBody RequestLikeDto requestLike) {
