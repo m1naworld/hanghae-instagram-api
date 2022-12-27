@@ -40,4 +40,8 @@ public class Posting extends Timestamped {
 
     @OneToMany(mappedBy = "posting", fetch = FetchType.LAZY)
     private List<Comment> commentList = new ArrayList<>();
+
+    public void updateLikeCount(int likeCount){
+        this.likeCount = likeCount;
+    }
 }
