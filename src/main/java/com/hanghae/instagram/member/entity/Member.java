@@ -50,11 +50,11 @@ public class Member {
 //        this.activated = activated;
     }
 
-    public void updateFollowing(int followingCount){
+    public void updateFollowingCount(int followingCount){
         this.followingCount = followingCount;
     }
 
-    public void updateFollower(int followerCount){
+    public void updateFollowerCount(int followerCount){
         this.followerCount = followerCount;
     }
 

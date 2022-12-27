@@ -36,16 +36,16 @@ public class FollowService {
             Follow newFollow = new Follow(compositeKey, following, follower);
             followRepository.save(newFollow);
 
-            follower.updateFollower(follower.getFollowerCount() + 1);
-            following.updateFollowing(following.getFollowingCount() + 1);
+            follower.updateFollowerCount(follower.getFollowerCount() + 1);
+            following.updateFollowingCount(following.getFollowingCount() + 1);
 
             return true;
         }
 
         // 언팔로우
         followRepository.deleteById(compositeKey);
-        follower.updateFollower(follower.getFollowerCount() -1);
-        following.updateFollowing(following.getFollowingCount() -1);
+        follower.updateFollowerCount(follower.getFollowerCount() -1);
+        following.updateFollowingCount(following.getFollowingCount() -1);
 
         return false;
     }
