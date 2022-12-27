@@ -1,5 +1,6 @@
 package com.hanghae.instagram.posting.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,12 +20,21 @@ public class PostingImg {
     private String postingImg;
 
     @Column(nullable = false)
-    private String postingImgNum;
+    private long postingImgNum;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POSTING_ID", nullable = false)
     private Posting posting;
 
     @OneToMany(mappedBy = "postingImg", fetch = FetchType.LAZY)
-    private List<ImgMemberTag> imgMemberTagList = new ArrayList<>();
+    private List<PostingImgMemberTag> imgMemberTagList = new ArrayList<>();
+
+    @Builder
+    public PostingImg(String postingImg, long postingImgNum, Posting posting) {
+        this.postingImg = postingImg;
+        this.postingImgNum = postingImgNum;
+        this.posting = posting;
+
+//        posting.getPostingImgList().add(this);
+    }
 }

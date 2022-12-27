@@ -2,6 +2,8 @@ package com.hanghae.instagram.member.service;
 
 import com.hanghae.instagram.common.exception.CustomException;
 import com.hanghae.instagram.common.exception.ErrorCode;
+import com.hanghae.instagram.jwt.JwtUtil;
+import com.hanghae.instagram.member.dto.RequestLoginMemberDto;
 import com.hanghae.instagram.member.dto.RequestSignupMemberDto;
 import com.hanghae.instagram.member.entity.Member;
 import com.hanghae.instagram.member.mapper.MemberMapper;
@@ -9,6 +11,8 @@ import com.hanghae.instagram.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -18,7 +22,9 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
+    private final JwtUtil jwtUtil;
 
+    @Transactional
     public void signUp(RequestSignupMemberDto requestSignupMemberDto) {
 
 
@@ -56,7 +62,25 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+    @Transactional
+    public void login(RequestLoginMemberDto requestLoginMemberDto, HttpServletResponse response) {
+
+            String email = requestLoginMemberDto.getEmail();
+            String password = requestLoginMemberDto.getPassword();
+
+            Member member = memberRepository.findByEmail(email).orElseThrow(
+                    ()-> new CustomException(ErrorCode.EMAIL_NOT_FOUND)
+
+            );
+
+            if (!member.getPassword().equals(password)){
+                throw new CustomException(ErrorCode.INCORRECT_PASSWORD);
+            }
+
+            response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(member.getEmail()));
+        }
+
+        }
 
 
-    }
 
