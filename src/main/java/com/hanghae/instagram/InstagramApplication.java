@@ -26,16 +26,16 @@ public class InstagramApplication {
     private MemberRepository memberRepository;
     @Resource
     private MemberMapper memberMapper;
-    @Bean
-    public ApplicationRunner applicationRunner() {
-        return args -> {
-            InputStream jsonMember = this.getClass().getClassLoader().getResourceAsStream("json/memberData.json");
-            List<RequestSignupMemberDto> requestSignupMemberDtoList = new ObjectMapper().readValue(jsonMember, new TypeReference<>() {
-            });
-            for (int i = 0; i < requestSignupMemberDtoList.size(); i++) {
-                Member member = memberMapper.toEntity(requestSignupMemberDtoList.get(i));
-                memberRepository.save(member);
-            }
-        };
-    }
+//    @Bean
+//    public ApplicationRunner applicationRunner() {
+//        return args -> {
+//            InputStream jsonMember = this.getClass().getClassLoader().getResourceAsStream("json/memberData.json");
+//            List<RequestSignupMemberDto> requestSignupMemberDtoList = new ObjectMapper().readValue(jsonMember, new TypeReference<>() {
+//            });
+//            for (int i = 0; i < requestSignupMemberDtoList.size(); i++) {
+//                Member member = memberMapper.toEntity(requestSignupMemberDtoList.get(i));
+//                memberRepository.save(member);
+//            }
+//        };
+//    }
 }
