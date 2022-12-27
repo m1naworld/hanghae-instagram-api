@@ -55,7 +55,7 @@ public class MemberService {
             throw new CustomException(ErrorCode.DUPLICATE_NICKNAME);
         }
 
-        if (requestSignupMemberDto.getEmail() == null || requestSignupMemberDto.getNickname() == null) {
+        if (requestSignupMemberDto.getEmail() == null || requestSignupMemberDto.getNickname() == null || requestSignupMemberDto.getUsername() == null) {
             throw new CustomException(ErrorCode.REQUIRED_ALL);
 
         }
@@ -69,6 +69,7 @@ public class MemberService {
 
         String email = requestLoginMemberDto.getEmail();
         String password = requestLoginMemberDto.getPassword();
+
 
         Member member = memberRepository.findByEmail(email).orElseThrow(
                 () -> new CustomException(ErrorCode.EMAIL_NOT_FOUND)
