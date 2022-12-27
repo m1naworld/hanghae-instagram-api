@@ -29,8 +29,8 @@ public class Member {
     @Column
     private String profileImg;
 
-    @Column
-    private String introduce;
+    @Column(nullable = false)
+    private String username;
 
     @Column
     private int followerCount;
@@ -42,11 +42,11 @@ public class Member {
     private boolean activated = true;
 
     @Builder
-    public Member(String email, String password, String nickname, String introduce) {
+    public Member(String email, String password, String nickname, String username) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
-        this.introduce = introduce;
+        this.username = username;
 //        this.activated = activated;
     }
 

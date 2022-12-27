@@ -26,6 +26,8 @@ public enum ErrorCode {
 
 
     /* 404 NOT_FOUND : Resource 를 찾을 수 없음 */
+
+    EMAIL_NOT_FOUND(NOT_FOUND, "존재하지 않는 이메일 입니다", OK),
     MEMBER_NOT_FOUND(NOT_FOUND, "해당 유저 정보를 찾을 수 없습니다", NOT_FOUND),
     COMMENT_NOT_FOUND(NOT_FOUND, "해당 댓글을 찾을 수 없습니다", OK),
     FORUM_NOT_FOUND(NOT_FOUND, "해당 게시글을 찾을 수 없습니다", NOT_FOUND),
