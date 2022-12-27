@@ -28,16 +28,16 @@ import static com.hanghae.instagram.common.exception.ErrorCode.FORUM_NOT_FOUND;
 @RequiredArgsConstructor
 public class LikeService {
 
-    private PostingLikeRepository postingLikeRepository;
-    private CommentLikeRepository commentLikeRepository;
-    private CommentRepository commentRepository;
-    private PostingRepository postingRepository;
+    private final PostingLikeRepository postingLikeRepository;
+    private final CommentLikeRepository commentLikeRepository;
+    private final CommentRepository commentRepository;
+    private final PostingRepository postingRepository;
 
     @Transactional
     public ResponseLikeDto changePostingLikeState(RequestLikeDto requestLike, Long postingId, String nickname) {
 
         boolean like = requestLike.isLike();
-
+        System.out.println(like);
         // 좋아요 취소
         if (like) {
             PostingLike postingLikeFind = postingLikeRepository.findPostingLikeByNicknameAndPostingId(nickname, postingId)
