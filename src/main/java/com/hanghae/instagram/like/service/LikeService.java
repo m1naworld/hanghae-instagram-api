@@ -40,7 +40,8 @@ public class LikeService {
 
         // 좋아요 취소
         if (like) {
-            PostingLike postingLikeFind = postingLikeRepository.findPostingLikeByNicknameAndPostingId(nickname, postingId).orElseThrow(() -> new CustomException(DUPLICATE_LIKE_CANCEL));
+            PostingLike postingLikeFind = postingLikeRepository.findPostingLikeByNicknameAndPostingId(nickname, postingId)
+                    .orElseThrow(() -> new CustomException(DUPLICATE_LIKE_CANCEL));
 
             Posting posting = postingLikeFind.getPosting();
             int currentLikeCount = posting.getLikeCount() - 1;
@@ -51,7 +52,8 @@ public class LikeService {
         }
 
         // 좋아요
-        Posting postingFind = postingRepository.findById(postingId).orElseThrow(() -> new CustomException(FORUM_NOT_FOUND));
+        Posting postingFind = postingRepository.findById(postingId)
+                .orElseThrow(() -> new CustomException(FORUM_NOT_FOUND));
 
         PostingLike newPostingLike = new PostingLike(nickname, postingFind);
         postingLikeRepository.save(newPostingLike);
@@ -70,7 +72,8 @@ public class LikeService {
 
         // 좋아요 취소
         if (like) {
-            CommentLike commentLikeFind = commentLikeRepository.findCommentLikeByNicknameAndCommentId(nickname, commentId).orElseThrow(() -> new CustomException(DUPLICATE_LIKE_CANCEL));
+            CommentLike commentLikeFind = commentLikeRepository.findCommentLikeByNicknameAndCommentId(nickname, commentId)
+                    .orElseThrow(() -> new CustomException(DUPLICATE_LIKE_CANCEL));
 
             Comment comment = commentLikeFind.getComment();
             int currentLikeCount = comment.getLikeCount() - 1;
@@ -81,7 +84,8 @@ public class LikeService {
         }
 
         // 좋아요
-        Comment commentFind = commentRepository.findById(commentId).orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
+        Comment commentFind = commentRepository.findById(commentId)
+                .orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
 
         CommentLike newCommentLike = new CommentLike(nickname, commentFind);
         commentLikeRepository.save(newCommentLike);
