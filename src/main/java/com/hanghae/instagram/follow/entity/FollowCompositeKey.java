@@ -11,12 +11,12 @@ import java.io.Serializable;
 public class FollowCompositeKey implements Serializable {
 
     @Column(nullable = false)
-    private Long followingId;
+    private Long memberId;
     @Column(nullable = false)
+    private Long myFollowingId;
 
-    private Long followerId;
-    public FollowCompositeKey(Long followingId, Long followerId){
-        this.followerId = followerId;
-        this.followingId = followingId;
+    public FollowCompositeKey(Long memberId, Long myFollowingId){
+        this.memberId = memberId;
+        this.myFollowingId = myFollowingId;
     }
 }
