@@ -1,5 +1,7 @@
 package com.hanghae.instagram.posting.mapper;
 
+import com.hanghae.instagram.comment.dto.ResponseComment;
+import com.hanghae.instagram.posting.dto.showPosting.ShowPostingDetailsDto;
 import com.hanghae.instagram.posting.dto.showPosting.ShowPostingDto;
 import com.hanghae.instagram.posting.dto.showPosting.ShowPostingImgDto;
 import com.hanghae.instagram.posting.dto.showPosting.ShowPostingImgMemberTagDto;
@@ -80,13 +82,31 @@ public class ShowPostingMapper {
                 .contents(posting.getContents())
                 .likeCount(posting.getLikeCount())
                 .nickname(posting.getMember().getNickname())
-                .commentCount(11) // Comment 기능 구현 이후 로직 수정 필요
-                .postingLike(likeChecked(posting, nickname)) // Like 기능 구현 이후 로직 수정 필요
+                .commentCount(posting.getCommentList().size())
+                .postingLike(likeChecked(posting, nickname))
                 .hashtagList(hashtagList)
                 .membertagList(membertagList)
                 .createdAt(dateTimeConverter(posting.getCreatedAt()))
                 .modifiedAt(dateTimeConverter(posting.getModifiedAt()))
                 .imgList(imgList)
+                .build();
+    }
+    public ShowPostingDetailsDto toDto(Posting posting, List<ShowPostingImgDto> imgList,
+                                       List<String> hashtagList, List<String> membertagList,
+                                       String nickname, List<ResponseComment> responseCommentList){
+        return ShowPostingDetailsDto.builder()
+                .id(posting.getId())
+                .contents(posting.getContents())
+                .likeCount(posting.getLikeCount())
+                .nickname(posting.getMember().getNickname())
+                .commentCount(posting.getCommentList().size())
+                .postingLike(likeChecked(posting, nickname))
+                .hashtagList(hashtagList)
+                .membertagList(membertagList)
+                .createdAt(dateTimeConverter(posting.getCreatedAt()))
+                .modifiedAt(dateTimeConverter(posting.getModifiedAt()))
+                .imgList(imgList)
+                .commentList(responseCommentList)
                 .build();
     }
 }
