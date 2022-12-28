@@ -72,7 +72,7 @@ public class MemberService {
 
         };
         SecureRandom sr = new SecureRandom();
-        int randomNum = sr.nextInt(6);
+        int randomNum = sr.nextInt(8);
         String profileImg = arr[randomNum];
 
         Member member = memberMapper.toEntity(requestSignupMemberDto, profileImg);
