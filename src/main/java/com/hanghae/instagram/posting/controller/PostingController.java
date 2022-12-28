@@ -3,6 +3,7 @@ package com.hanghae.instagram.posting.controller;
 import com.hanghae.instagram.common.response.DataResponse;
 import com.hanghae.instagram.common.response.SuccessResponse;
 import com.hanghae.instagram.posting.dto.createPosting.RequestCreatePostingDto;
+import com.hanghae.instagram.posting.dto.showPosting.ResponseShowPostingDetailsDto;
 import com.hanghae.instagram.posting.dto.showPosting.ResponseShowPostingDto;
 import com.hanghae.instagram.posting.service.PostingService;
 import com.hanghae.instagram.security.userdetails.UserDetailsImpl;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import static com.hanghae.instagram.common.response.SuccessCode.CREATE_POSTING_SUCCESS;
 import static com.hanghae.instagram.common.response.SuccessCode.SHOW_POSTING_SUCCESS;
+import static com.hanghae.instagram.common.response.SuccessCode.SHOW_POSTING_DETAIL_SUCCESS;
 
 @Slf4j
 @RestController
@@ -38,5 +40,12 @@ public class PostingController {
                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
         List<ResponseShowPostingDto> data = postingService.showPosting(pageable, userDetails.getNickname());
         return DataResponse.toResponseEntity(SHOW_POSTING_SUCCESS, data);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> showPosting(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                         @PathVariable long id) {
+        ResponseShowPostingDetailsDto data = postingService.showPostingDetails(id, userDetails.getNickname());
+        return DataResponse.toResponseEntity(SHOW_POSTING_DETAIL_SUCCESS, data);
     }
 }
