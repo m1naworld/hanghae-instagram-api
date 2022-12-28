@@ -8,31 +8,28 @@ import java.util.List;
 
 @Getter
 public class ResponseShowPostingDetailsDto {
-    private long id;
-    private String contents;
-    private long likeCount;
-    private String nickname;
-    private long commentCount;
-    private boolean postingLike;
-    private List<String> hashtagList;
-    private List<String> membertagList;
-    private String createdAt;
-    private String modifiedAt;
+    @Getter
+    @Builder
+    static private class PostDetail {
+        private long id;
+        private String contents;
+        private long likeCount;
+        private String nickname;
+        private long commentCount;
+        private boolean postingLike;
+        private List<String> hashtagList;
+        private List<String> membertagList;
+        private String createdAt;
+        private String modifiedAt;
+    }
+    private PostDetail postDetail;
     private List<ShowPostingImgDto> imgList;
     private List<ResponseComment> commentList;
 
     @Builder
     public ResponseShowPostingDetailsDto(long id, String contents, long likeCount, String nickname, long commentCount, boolean postingLike, List<String> hashtagList, List<String> membertagList, String createdAt, String modifiedAt, List<ShowPostingImgDto> imgList, List<ResponseComment> commentList) {
-        this.id = id;
-        this.contents = contents;
-        this.likeCount = likeCount;
-        this.nickname = nickname;
-        this.commentCount = commentCount;
-        this.postingLike = postingLike;
-        this.hashtagList = hashtagList;
-        this.membertagList = membertagList;
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
+        this.postDetail = new PostDetail(id, contents, likeCount, nickname, commentCount, postingLike,
+                hashtagList, membertagList, createdAt, modifiedAt);
         this.imgList = imgList;
         this.commentList = commentList;
     }
