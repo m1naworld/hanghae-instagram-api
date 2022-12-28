@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import java.security.SecureRandom;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -28,7 +29,6 @@ public class MemberService {
 
     @Transactional
     public void signUp(RequestSignupMemberDto requestSignupMemberDto) {
-
 
         String email = requestSignupMemberDto.getEmail();
 
@@ -60,7 +60,22 @@ public class MemberService {
 
         }
 
-        Member member = memberMapper.toEntity(requestSignupMemberDto);
+        String[] arr = new String[]{
+                "https://hanghaecatsanddogs.s3.ap-northeast-2.amazonaws.com/profile/%EA%B0%95%EC%95%84%EC%A7%80.jpg",
+                "https://hanghaecatsanddogs.s3.ap-northeast-2.amazonaws.com/profile/%EA%B3%B0.jpg",
+                "https://hanghaecatsanddogs.s3.ap-northeast-2.amazonaws.com/profile/%EA%B3%B02.jpg",
+                "https://hanghaecatsanddogs.s3.ap-northeast-2.amazonaws.com/profile/%EA%BD%83.jpg",
+                "https://hanghaecatsanddogs.s3.ap-northeast-2.amazonaws.com/profile/%EA%BD%832.jpg",
+                "https://hanghaecatsanddogs.s3.ap-northeast-2.amazonaws.com/profile/%EC%A3%BC%EB%94%94.jpg",
+                "https://hanghaecatsanddogs.s3.ap-northeast-2.amazonaws.com/profile/%ED%86%A0%EB%81%BC.jpg",
+                "https://hanghaecatsanddogs.s3.ap-northeast-2.amazonaws.com/profile/%EA%B8%B0%EB%B3%B8%EC%9D%B4%EB%AF%B8%EC%A7%80.png"
+
+        };
+        SecureRandom sr = new SecureRandom();
+        int randomNum = sr.nextInt(8);
+        String profileImg = arr[randomNum];
+
+        Member member = memberMapper.toEntity(requestSignupMemberDto, profileImg);
         memberRepository.save(member);
     }
 
