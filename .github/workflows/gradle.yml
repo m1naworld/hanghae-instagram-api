@@ -9,8 +9,8 @@ on:
 # 리전, 버킷 이름, CodeDeploy 앱 이름, CodeDeploy 배포 그룹 이름
 env:
   AWS_REGION: ap-northeast-2
-  S3_BUCKET_NAME: hanghae-instagram-s3-bucket
-  CODE_DEPLOY_APPLICATION_NAME: instagram-app
+  S3_BUCKET_NAME: 99instagram
+  CODE_DEPLOY_APPLICATION_NAME: instagram
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: instagram
 
 permissions:
