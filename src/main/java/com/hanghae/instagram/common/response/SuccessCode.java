@@ -19,6 +19,10 @@ public enum SuccessCode {
     LIKE_SUCCESS(OK, "좋아요 성공"),
     LIKE_CANCEL_SUCCESS(OK, "좋아요 취소 성공"),
 
+    // Follow
+    FOLLOW_SUCCESS(OK, "팔로우 성공"),
+    UNFOLLOW_SUCCESS(OK, "언팔로우 성공"),
+
     CREATE_POSTING_SUCCESS(OK, "포스팅 등록 성공"),
     SHOW_POSTING_SUCCESS(OK, "전체 포스팅 조회 성공"),
     CREATE_COMMENT_SUCCESS(OK, "댓글 작성 성공");
