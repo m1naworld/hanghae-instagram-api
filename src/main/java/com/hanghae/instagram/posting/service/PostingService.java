@@ -35,6 +35,7 @@ public class PostingService {
 
     private final CreatePostingMapper createPostingMapper;
     private final ShowPostingMapper showPostingMapper;
+    private final TagExctractor tagExctractor;
 
     @Transactional
     public void createPosting(CreatePostingDto createPostingDto, String email) {
@@ -58,7 +59,7 @@ public class PostingService {
                 postingImgMemberTagRepository.save(postingImgMemberTag);
             }
         }
-        // 5. 게시글 회원태그 Entity 생성
+        // 5. 게시글 회원태그 Entity 생성 (FE에서 보내준 정보)
         for (int i = 0; i < createPostingDto.getMembertagList().size(); i++) {
             PostingMemberTag postingMemberTag = createPostingMapper.toEntity(
                     createPostingDto.getMembertagList().get(i),
@@ -66,12 +67,25 @@ public class PostingService {
             );
             postingMemberTagRepository.save(postingMemberTag);
         }
-        // 6. 게시글 해쉬태그 Entity 생성
+        // 5-1. 게시글 회원태그 Entity 생성 및 저장 (BE에서 분석한 정보)
+        List<String> membertagList = tagExctractor.extractMemberTags(createPostingDto.getContents());
+        for (String s : membertagList) {
+            PostingMemberTag postingMemberTag = createPostingMapper.toEntity(s, posting);
+            postingMemberTagRepository.save(postingMemberTag);
+        }
+
+        // 6. 게시글 해쉬태그 Entity 생성 (FE에서 보내준 정보)
         for (int i = 0; i < createPostingDto.getHashtagList().size(); i++) {
             PostingHashTag postingHashTag = new PostingHashTag(
                     createPostingDto.getHashtagList().get(i),
                     posting
             );
+            postingHashTagRepository.save(postingHashTag);
+        }
+        // 6-1. 게시글 해쉬 태그 Entity 생성 및 저장 (BE에서 분석한 정보)
+        List<String> hashtagList = tagExctractor.extractHashTags(createPostingDto.getContents());
+        for (String s : hashtagList) {
+            PostingHashTag postingHashTag = new PostingHashTag(s, posting);
             postingHashTagRepository.save(postingHashTag);
         }
     }
