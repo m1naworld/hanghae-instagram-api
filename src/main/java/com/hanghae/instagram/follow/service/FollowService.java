@@ -1,5 +1,6 @@
 package com.hanghae.instagram.follow.service;
 
+import com.hanghae.instagram.common.exception.CustomException;
 import com.hanghae.instagram.follow.dto.RequestFollowDto;
 import com.hanghae.instagram.follow.entity.Follow;
 import com.hanghae.instagram.follow.entity.FollowCompositeKey;
@@ -15,6 +16,8 @@ import org.hibernate.PropertyValueException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.hanghae.instagram.common.exception.ErrorCode.MEMBER_NOT_FOUND;
+
 
 @Service
 @RequiredArgsConstructor
@@ -24,10 +27,13 @@ public class FollowService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public boolean doFollowAndUnfollow(RequestFollowDto follow) throws PropertyValueException {
+    public boolean doFollowAndUnfollow(Member following, RequestFollowDto follow) throws PropertyValueException {
 
-        Member following = memberRepository.findByNickname(follow.getFollowing()).orElseThrow();
-        Member follower = memberRepository.findByNickname(follow.getFollower()).orElseThrow();
+        Member follower = memberRepository.findByNickname(follow.getFollower())
+                .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+
+        int getFollowingCount = following.getFollowingCount();
+        int getFollowerCount = follower.getFollowerCount();
 
         FollowCompositeKey compositeKey = new FollowCompositeKey(following.getId(), follower.getId());
 
@@ -36,16 +42,17 @@ public class FollowService {
             Follow newFollow = new Follow(compositeKey, following, follower);
             followRepository.save(newFollow);
 
-            follower.updateFollowerCount(follower.getFollowerCount() + 1);
-            following.updateFollowingCount(following.getFollowingCount() + 1);
+            memberRepository.updateFollowingCount(getFollowingCount + 1, following.getId());
+            follower.updateFollowerCount(getFollowerCount + 1);
 
             return true;
         }
 
         // 언팔로우
         followRepository.deleteById(compositeKey);
+
+        memberRepository.updateFollowingCount(getFollowingCount -1, following.getId());
         follower.updateFollowerCount(follower.getFollowerCount() -1);
-        following.updateFollowingCount(following.getFollowingCount() -1);
 
         return false;
     }

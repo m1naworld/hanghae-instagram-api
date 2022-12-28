@@ -20,8 +20,8 @@ public class Follow {
     private FollowCompositeKey id;
 
     @MapsId("followingId")
-    private Member following;
     @ManyToOne(fetch = FetchType.LAZY)
+    private Member following;
 
     @MapsId("followerId")
     @ManyToOne(fetch = FetchType.LAZY)
