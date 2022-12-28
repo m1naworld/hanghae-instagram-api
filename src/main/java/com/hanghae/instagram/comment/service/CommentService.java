@@ -30,6 +30,9 @@ public class CommentService {
         Comment comment = commentMapper.toDepthZeroComment(posting, requestDto, member.getId(), member.getNickname());
         commentRepository.save(comment);
 
+        // 양방향 연관관계 설정을 위해 추가했습니다. (이상직)
+        posting.getCommentList().add(comment);
+
         return new ResponseComment(postingId, comment);
     }
 
