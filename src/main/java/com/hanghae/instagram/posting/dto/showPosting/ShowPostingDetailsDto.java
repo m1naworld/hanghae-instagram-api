@@ -1,5 +1,6 @@
 package com.hanghae.instagram.posting.dto.showPosting;
 
+import com.hanghae.instagram.comment.dto.ResponseComment;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -7,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Builder
-public class ShowPostingDto {
+public class ShowPostingDetailsDto {
     private long id;
     private String contents;
     private long likeCount;
@@ -19,9 +20,10 @@ public class ShowPostingDto {
     private String createdAt;
     private String modifiedAt;
     private List<ShowPostingImgDto> imgList;
+    private List<ResponseComment> commentList;
 
-    public ResponseShowPostingDto toResponse(){
-        return ResponseShowPostingDto.builder()
+    public ResponseShowPostingDetailsDto toResponse() {
+        return ResponseShowPostingDetailsDto.builder()
                 .id(id)
                 .contents(contents)
                 .likeCount(likeCount)
@@ -33,6 +35,7 @@ public class ShowPostingDto {
                 .createdAt(createdAt)
                 .modifiedAt(modifiedAt)
                 .imgList(imgList)
+                .commentList(commentList)
                 .build();
     }
 }
