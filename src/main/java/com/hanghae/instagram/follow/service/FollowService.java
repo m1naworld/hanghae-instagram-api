@@ -27,23 +27,23 @@ public class FollowService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public boolean doFollowAndUnfollow(Member following, RequestFollowDto follow) throws PropertyValueException {
+    public boolean doFollowAndUnfollow(Member member, RequestFollowDto follow) throws PropertyValueException {
 
-        Member follower = memberRepository.findByNickname(follow.getFollower())
+        Member myFollowingMember = memberRepository.findByNickname(follow.getMyFollowingMemberNickname())
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
 
-        int getFollowingCount = following.getFollowingCount();
-        int getFollowerCount = follower.getFollowerCount();
+        int getFollowerCount = myFollowingMember.getFollowerCount();
+        int getFollowingCount = member.getFollowingCount();
 
-        FollowCompositeKey compositeKey = new FollowCompositeKey(following.getId(), follower.getId());
+        FollowCompositeKey compositeKey = new FollowCompositeKey(member.getId(), myFollowingMember.getId());
 
         // 팔로우
         if(!follow.isFollowState()){
-            Follow newFollow = new Follow(compositeKey, following, follower);
+            Follow newFollow = new Follow(compositeKey, member, myFollowingMember);
             followRepository.save(newFollow);
 
-            memberRepository.updateFollowingCount(getFollowingCount + 1, following.getId());
-            follower.updateFollowerCount(getFollowerCount + 1);
+            memberRepository.updateFollowingCount(getFollowingCount + 1, member.getId());
+            myFollowingMember.updateFollowerCount(getFollowerCount + 1);
 
             return true;
         }
@@ -51,8 +51,8 @@ public class FollowService {
         // 언팔로우
         followRepository.deleteById(compositeKey);
 
-        memberRepository.updateFollowingCount(getFollowingCount -1, following.getId());
-        follower.updateFollowerCount(follower.getFollowerCount() -1);
+        memberRepository.updateFollowingCount(getFollowingCount -1, member.getId());
+        myFollowingMember.updateFollowerCount(myFollowingMember.getFollowerCount() -1);
 
         return false;
     }

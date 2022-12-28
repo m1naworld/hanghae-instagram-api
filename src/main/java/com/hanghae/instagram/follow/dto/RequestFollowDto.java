@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 public class RequestFollowDto {
 
     private boolean followState;
-    private String follower;
+    private String myFollowingMemberNickname;
 }

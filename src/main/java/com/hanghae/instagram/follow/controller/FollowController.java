@@ -30,8 +30,8 @@ public class FollowController {
     @PutMapping("")
     public ResponseEntity<DataResponse<ResponseFollowDto>> followAndUnfollow(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody RequestFollowDto follow){
 
-        Member following = userDetails.getMember();
-        boolean newFollowState = followService.doFollowAndUnfollow(following, follow);
+        Member member = userDetails.getMember();
+        boolean newFollowState = followService.doFollowAndUnfollow(member, follow);
 
         if(newFollowState) {
             return DataResponse.toResponseEntity(FOLLOW_SUCCESS, new ResponseFollowDto(true));
