@@ -8,12 +8,12 @@ import com.hanghae.instagram.common.response.SuccessResponse;
 import com.hanghae.instagram.member.dto.RequestLoginMemberDto;
 import com.hanghae.instagram.member.dto.RequestSignupMemberDto;
 import com.hanghae.instagram.member.dto.ResponseMemberDto;
+import com.hanghae.instagram.member.entity.Member;
 import com.hanghae.instagram.member.service.MemberService;
 import com.hanghae.instagram.security.userdetails.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -38,12 +38,14 @@ public class MemberController {
         return SuccessResponse.toResponseEntity(SuccessCode.LOGIN_USER_SUCCESS);
     }
 
-    @GetMapping("getMember")
+    @GetMapping("/info")
     public ResponseEntity<?> getMember(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         if(userDetails == null){
             throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
         }
-        ResponseMemberDto responseMemberDto = new ResponseMemberDto(userDetails.getProfileImg(), userDetails.getNickname());
+
+        Member member = userDetails.getMember();
+        ResponseMemberDto responseMemberDto = new ResponseMemberDto(member.getProfileImg(), member.getNickname(), member.getFollowerCount(), member.getFollowingCount());
 
         return DataResponse.toResponseEntity(SuccessCode.MEMBER_SUCCESS, responseMemberDto);
     }
