@@ -9,24 +9,21 @@ import java.time.LocalDateTime;
 @Getter
 public class ResponseComment {
 
-    private Long Id;
-
-    private Long parentCommentId;
-
     private Long postingId;
 
-    private String nickname;
+    private Long commentId;
+
+    private String nickName;
 
     private String comment;
 
     private LocalDateTime createdAt;
 
     public ResponseComment(Long id, Comment comment){
-        this.Id = id;
-        this.createdAt = comment.getCreatedAt();
-        this.parentCommentId = comment.getParentCommentId();
-        this.nickname = comment.getNickname();
-        this.comment = this.getComment();
-        this.postingId = getPostingId();
+        this.postingId = id;
+        this.commentId = comment.getId();
+        this.nickName = comment.getNickName();
+        this.comment = comment.getContent();
+        this.createdAt = getCreatedAt();
     }
 }
