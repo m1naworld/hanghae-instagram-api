@@ -3,10 +3,12 @@ package com.hanghae.instagram.member.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 
-import javax.persistence.*;
-import javax.sql.DataSource;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity(name = "member")
 @NoArgsConstructor
@@ -27,7 +29,7 @@ public class Member {
     private String nickname;
 
     @Column
-    private String  profileImg;
+    private String profileImg;
 
     @Column(nullable = false)
     private String username;
@@ -35,7 +37,7 @@ public class Member {
     @Column
     private int followerCount;
 
-   @Column
+    @Column
     private int followingCount;
 
     @Column
@@ -51,12 +53,11 @@ public class Member {
         this.profileImg = profileImg;
     }
 
-    public void updateFollowingCount(int followingCount){
+    public void updateFollowingCount(int followingCount) {
         this.followingCount = followingCount;
     }
 
-    public void updateFollowerCount(int followerCount){
+    public void updateFollowerCount(int followerCount) {
         this.followerCount = followerCount;
     }
-
 }
