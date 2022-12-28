@@ -1,12 +1,15 @@
 package com.hanghae.instagram.posting.entity;
 
 import com.hanghae.instagram.common.entity.Timestamped;
+import com.hanghae.instagram.like.entity.PostingLike;
 import com.hanghae.instagram.member.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -38,6 +41,9 @@ public class Posting extends Timestamped {
 //
 //    @OneToMany(mappedBy = "posting", fetch = FetchType.LAZY)
 //    private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "posting", fetch = FetchType.LAZY)
+    private List<PostingLike> postingLikeList = new ArrayList<>();
 
     @Builder
     public Posting(String contents, Member member) {

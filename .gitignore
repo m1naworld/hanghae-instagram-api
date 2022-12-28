@@ -38,3 +38,4 @@ out/
 
 ### MySQL
 src/main/resources/application-secret.properties
+src/main/resources/application-config.properties
