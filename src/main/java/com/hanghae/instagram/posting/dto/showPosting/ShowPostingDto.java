@@ -21,7 +21,6 @@ public class ShowPostingDto {
     private List<ShowPostingImgDto> imgList;
 
     public ResponseShowPostingDto toResponse(){
-        // 빌더 패턴을 이용할 때, List에 대한 DeepCopy가 필요. 일단 바쁘니 리팩토링 때 적용
         return ResponseShowPostingDto.builder()
                 .id(id)
                 .contents(contents)
