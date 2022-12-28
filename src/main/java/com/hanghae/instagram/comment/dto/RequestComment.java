@@ -9,6 +9,4 @@ public class RequestComment {
 
     private String comment;
 
-    private String nickname;
-
 }

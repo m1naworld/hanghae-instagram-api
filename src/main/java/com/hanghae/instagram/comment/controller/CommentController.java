@@ -5,11 +5,13 @@ import com.hanghae.instagram.comment.dto.ResponseComment;
 import com.hanghae.instagram.comment.service.CommentService;
 import com.hanghae.instagram.common.response.DataResponse;
 import com.hanghae.instagram.common.response.SuccessCode;
+import com.hanghae.instagram.common.response.SuccessResponse;
 import com.hanghae.instagram.member.entity.Member;
 import com.hanghae.instagram.security.userdetails.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -35,6 +37,13 @@ public class CommentController {
                                                      @AuthenticationPrincipal UserDetailsImpl userDetails){
         Member loginMember = userDetails.getMember();
         ResponseComment responseComment = commentService.editComment(postingId, commentId, requestDto, loginMember);
-        return DataResponse.toResponseEntity(SuccessCode.CREATE_COMMENT_SUCCESS, responseComment);
+        return DataResponse.toResponseEntity(SuccessCode.UPDATE_COMMENT_SUCCESS, responseComment);
+    }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long postingId, @PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        Member loginMember = userDetails.getMember();
+        commentService.deleteComment(postingId, commentId, loginMember);
+        return SuccessResponse.toResponseEntity(SuccessCode.DELETE_COMMENT_SUCCESS);
     }
 }

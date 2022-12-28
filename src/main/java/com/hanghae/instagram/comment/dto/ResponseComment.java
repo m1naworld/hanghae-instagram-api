@@ -24,6 +24,6 @@ public class ResponseComment {
         this.commentId = comment.getId();
         this.nickName = comment.getNickName();
         this.comment = comment.getContent();
-        this.createdAt = getCreatedAt();
+        this.createdAt = comment.getCreatedAt();
     }
 }
