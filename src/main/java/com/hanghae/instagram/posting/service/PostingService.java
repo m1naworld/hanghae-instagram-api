@@ -47,8 +47,46 @@ public class PostingService {
     private final ShowPostingMapper showPostingMapper;
     private final TagExctractor tagExctractor;
 
+    private ResponseShowPostingDto getResponseShowPostingInCreatePosting(Posting posting, String nickname) {
+        // 1. HashTag 정보 가져오기
+        List<PostingHashTag> postingHashTagList
+                = postingHashTagRepository.findAllByPostingId(posting.getId());
+        List<String> hashtagList = new ArrayList<>();
+        for (PostingHashTag postingHashTag : postingHashTagList) {
+            hashtagList.add(postingHashTag.getHashtag());
+        }
+
+        // 2. MemberTag 정보 가져오기
+        List<PostingMemberTag> postingMemberTagList
+                = postingMemberTagRepository.findAllByPostingId(posting.getId());
+        List<String> membertagList = new ArrayList<>();
+        for (PostingMemberTag postingMemberTag : postingMemberTagList) {
+            membertagList.add(postingMemberTag.getMemberNickname());
+        }
+
+        // 3. PostingImg 정보 가져오기
+        List<PostingImg> postingImgList = postingImgRepository.findAllByPostingId(posting.getId());
+        List<ShowPostingImgDto> imgList = new ArrayList<>();
+        for (PostingImg postingImg : postingImgList) {
+            List<PostingImgMemberTag> postingImgMemberTagList
+                    = postingImgMemberTagRepository.findAllByPostingImgId(postingImg.getId());
+            List<ShowPostingImgMemberTagDto> showPostingImgMemberTagDtoList = new ArrayList<>();
+            for (PostingImgMemberTag postingImgMemberTag : postingImgMemberTagList) {
+                showPostingImgMemberTagDtoList.add(
+                        showPostingMapper.toDto(postingImgMemberTag)
+                );
+            }
+            imgList.add(showPostingMapper.toDto(postingImg, showPostingImgMemberTagDtoList));
+        }
+
+        // 4. ShowPostingDto 형식으로 변환하고 리스트에 추가하기
+
+        ShowPostingDto tmp = showPostingMapper.toDto(posting, imgList, hashtagList, membertagList, nickname);
+        return tmp.toResponse();
+    }
+
     @Transactional
-    public void createPosting(CreatePostingDto createPostingDto, String email) {
+    public ResponseShowPostingDto createPosting(CreatePostingDto createPostingDto, String email) {
         // 1. email을 통해 로그인한 사용자의 정보 가져오기
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
@@ -98,6 +136,7 @@ public class PostingService {
             PostingHashTag postingHashTag = new PostingHashTag(s, posting);
             postingHashTagRepository.save(postingHashTag);
         }
+        return getResponseShowPostingInCreatePosting(posting, member.getNickname());
     }
 
     @Transactional(readOnly = true)

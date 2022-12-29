@@ -29,9 +29,8 @@ public class PostingController {
     @PostMapping()
     public ResponseEntity<?> createPosting(@RequestBody RequestCreatePostingDto requestCreatePostingDto,
                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        log.info("UserDetails getEmail: " + userDetails.getEmail());
-        postingService.createPosting(requestCreatePostingDto.toCreatePostingDto(), userDetails.getEmail());
-        return SuccessResponse.toResponseEntity(CREATE_POSTING_SUCCESS);
+        ResponseShowPostingDto data = postingService.createPosting(requestCreatePostingDto.toCreatePostingDto(), userDetails.getEmail());
+        return DataResponse.toResponseEntity(CREATE_POSTING_SUCCESS, data);
     }
 
     @GetMapping()
