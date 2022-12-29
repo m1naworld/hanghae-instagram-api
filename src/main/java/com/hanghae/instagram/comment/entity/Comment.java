@@ -37,11 +37,13 @@ public class Comment extends Timestamped {
     private String nickName;
 
     @ManyToOne
-    @JoinColumn(name = "posting_id")
+    @JoinColumn(name = "POSTING_ID", nullable = false)
     private Posting postingId;
 
     @Column
     private Long memberId;
+
+    private String profileImg;
 
     private int likeCount;
 

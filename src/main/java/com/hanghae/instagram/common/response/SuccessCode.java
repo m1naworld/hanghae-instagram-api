@@ -27,6 +27,7 @@ public enum SuccessCode {
     // Posting
     CREATE_POSTING_SUCCESS(OK, "포스팅 등록 성공"),
     SHOW_POSTING_SUCCESS(OK, "전체 포스팅 조회 성공"),
+
     SHOW_POSTING_DETAIL_SUCCESS(OK, "포스팅 상세 조회 성공"),
     SHOW_POSTING_BY_HASHTAG_SUCCESS(OK, "해쉬태그 검색 성공"),
     CREATE_COMMENT_SUCCESS(OK, "댓글 작성 성공"),

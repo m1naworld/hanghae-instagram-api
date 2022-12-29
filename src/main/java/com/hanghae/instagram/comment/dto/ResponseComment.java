@@ -17,6 +17,8 @@ public class ResponseComment {
 
     private String comment;
 
+    private String profileImg;
+
     private LocalDateTime createdAt;
 
     public ResponseComment(Long id, Comment comment){
@@ -25,5 +27,6 @@ public class ResponseComment {
         this.nickName = comment.getNickName();
         this.comment = comment.getContent();
         this.createdAt = comment.getCreatedAt();
+        this.profileImg = comment.getProfileImg();
     }
 }

@@ -8,5 +8,4 @@ import lombok.NoArgsConstructor;
 public class RequestComment {
 
     private String comment;
-
 }

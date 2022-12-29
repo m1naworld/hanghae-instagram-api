@@ -79,8 +79,9 @@ public class Member {
         this.profileImg = profileImg;
     }
 
-    public void updateFollowerCount(int followerCount){
-        this.followerCount = followerCount;
+    public void updateFollowingCount(int followingCount) {
+        this.followingCount = followingCount;
+   
     }
 
 }
