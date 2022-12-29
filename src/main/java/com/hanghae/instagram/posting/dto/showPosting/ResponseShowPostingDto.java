@@ -18,9 +18,10 @@ public class ResponseShowPostingDto {
     private String createdAt;
     private String modifiedAt;
     private List<ShowPostingImgDto> imgList;
+    private String profileImg;
 
     @Builder
-    public ResponseShowPostingDto(long id, String contents, long likeCount, String nickname, long commentCount, boolean postingLike, List<String> hashtagList, List<String> membertagList, String createdAt, String modifiedAt, List<ShowPostingImgDto> imgList) {
+    public ResponseShowPostingDto(long id, String contents, long likeCount, String nickname, long commentCount, boolean postingLike, List<String> hashtagList, List<String> membertagList, String createdAt, String modifiedAt, List<ShowPostingImgDto> imgList, String profileImg) {
         this.id = id;
         this.contents = contents;
         this.likeCount = likeCount;
@@ -32,5 +33,6 @@ public class ResponseShowPostingDto {
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
         this.imgList = imgList;
+        this.profileImg = profileImg;
     }
 }

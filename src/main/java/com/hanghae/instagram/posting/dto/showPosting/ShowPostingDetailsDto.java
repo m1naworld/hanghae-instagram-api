@@ -21,6 +21,7 @@ public class ShowPostingDetailsDto {
     private String modifiedAt;
     private List<ShowPostingImgDto> imgList;
     private List<ResponseComment> commentList;
+    private String profileImg;
 
     public ResponseShowPostingDetailsDto toResponse() {
         return ResponseShowPostingDetailsDto.builder()
