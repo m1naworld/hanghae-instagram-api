@@ -55,4 +55,11 @@ public class PostingController {
                 = postingService.showPostingByHashTag(pageable, hashtag);
         return DataResponse.toResponseEntity(SHOW_POSTING_BY_HASHTAG_SUCCESS, data);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletePosting(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                           @PathVariable long id) {
+        postingService.deletePosting(id, userDetails.getNickname());
+        return SuccessResponse.toResponseEntity(DELETE_POSTING_SUCCESS);
+    }
 }
