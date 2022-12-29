@@ -5,6 +5,7 @@ import com.hanghae.instagram.common.exception.CustomException;
 import com.hanghae.instagram.member.entity.Member;
 import com.hanghae.instagram.member.repository.MemberRepository;
 import com.hanghae.instagram.posting.dto.createPosting.CreatePostingDto;
+import com.hanghae.instagram.posting.dto.hashtag.ResponseShowPostingByHashTagDto;
 import com.hanghae.instagram.posting.dto.showPosting.*;
 import com.hanghae.instagram.posting.entity.*;
 import com.hanghae.instagram.posting.mapper.CreatePostingMapper;
@@ -185,5 +186,20 @@ public class PostingService {
                 .toDto(posting, imgList, hashtagList, membertagList, nickname, responseCommentList)
                 .toResponse();
     }
+    @Transactional(readOnly = true)
+    public ResponseShowPostingByHashTagDto showPostingByHashTag (Pageable pageable, String hashtag) {
+        List<PostingHashTag> postingHashTagList = postingHashTagRepository.findAllByHashtag(hashtag, pageable);
+        List<ShowPostingBriefDto> showPostingBriefDtoList = new ArrayList<>();
 
+        for (PostingHashTag postingHashTag : postingHashTagList) {
+            PostingImg postingImg = postingImgRepository.findByPostingAndPostingImgNum(postingHashTag.getPosting(), 1);
+            showPostingBriefDtoList.add(showPostingMapper.toDto(postingHashTag.getPosting(), postingImg));
+        }
+
+        return ResponseShowPostingByHashTagDto.builder()
+                .hashtag(hashtag)
+                .postingCount(postingHashTagList.size())
+                .postingBriefList(showPostingBriefDtoList)
+                .build();
+    }
 }
