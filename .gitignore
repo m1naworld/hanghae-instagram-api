@@ -39,3 +39,4 @@ out/
 src/main/resources/application-secret.properties
 src/main/resources/application-config.properties
 src/main/resources/application-kakao.properties
+src/main/resources/application-h2.properties

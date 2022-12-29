@@ -5,6 +5,7 @@ import com.hanghae.instagram.comment.dto.ResponseComment;
 import com.hanghae.instagram.comment.entity.Comment;
 import com.hanghae.instagram.comment.mapper.CommentMapper;
 import com.hanghae.instagram.comment.repository.CommentRepository;
+import com.hanghae.instagram.like.repository.CommentLikeRepository;
 import com.hanghae.instagram.member.entity.Member;
 import com.hanghae.instagram.posting.entity.Posting;
 import com.hanghae.instagram.posting.repository.PostingRepository;
@@ -19,6 +20,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostingRepository postingRepository;
     private final CommentMapper commentMapper;
+    private final CommentLikeRepository commentLikeRepository;
 
     //댓글 작성
     @Transactional
@@ -68,6 +70,8 @@ public class CommentService {
         if (comment.getPostingId().getId() != posting.getId()) {
             throw new IllegalArgumentException("게시글에 댓글이 존재하지 않습니다.");
         }
+        // 댓글 좋아요 삭제
+        commentLikeRepository.deleteAllByCommentIdInQuery(comment.getId());
         //댓글 삭제
         commentRepository.delete(comment);
     }

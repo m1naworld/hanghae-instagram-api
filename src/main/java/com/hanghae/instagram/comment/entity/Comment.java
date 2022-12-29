@@ -42,9 +42,9 @@ public class Comment extends Timestamped {
 
     @Column
     private Long memberId;
-
+    @Column
     private String profileImg;
-
+    @Column
     private int likeCount;
 
     @OneToMany(fetch = FetchType.LAZY)

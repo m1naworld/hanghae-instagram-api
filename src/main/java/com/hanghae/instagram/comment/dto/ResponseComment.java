@@ -20,6 +20,7 @@ public class ResponseComment {
     private String profileImg;
 
     private LocalDateTime createdAt;
+    private int likeCount;
 
     public ResponseComment(Long id, Comment comment){
         this.postingId = id;
@@ -28,5 +29,6 @@ public class ResponseComment {
         this.comment = comment.getContent();
         this.createdAt = comment.getCreatedAt();
         this.profileImg = comment.getProfileImg();
+        this.likeCount = comment.getLikeCount();
     }
 }

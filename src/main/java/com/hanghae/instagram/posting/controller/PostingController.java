@@ -29,9 +29,8 @@ public class PostingController {
     @PostMapping()
     public ResponseEntity<?> createPosting(@RequestBody RequestCreatePostingDto requestCreatePostingDto,
                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        log.info("UserDetails getEmail: " + userDetails.getEmail());
-        postingService.createPosting(requestCreatePostingDto.toCreatePostingDto(), userDetails.getEmail());
-        return SuccessResponse.toResponseEntity(CREATE_POSTING_SUCCESS);
+        ResponseShowPostingDto data = postingService.createPosting(requestCreatePostingDto.toCreatePostingDto(), userDetails.getEmail());
+        return DataResponse.toResponseEntity(CREATE_POSTING_SUCCESS, data);
     }
 
     @GetMapping()
@@ -54,5 +53,12 @@ public class PostingController {
         ResponseShowPostingByHashTagDto data
                 = postingService.showPostingByHashTag(pageable, hashtag);
         return DataResponse.toResponseEntity(SHOW_POSTING_BY_HASHTAG_SUCCESS, data);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletePosting(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                           @PathVariable long id) {
+        postingService.deletePosting(id, userDetails.getNickname());
+        return SuccessResponse.toResponseEntity(DELETE_POSTING_SUCCESS);
     }
 }

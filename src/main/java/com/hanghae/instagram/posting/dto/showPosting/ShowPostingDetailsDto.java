@@ -37,6 +37,7 @@ public class ShowPostingDetailsDto {
                 .modifiedAt(modifiedAt)
                 .imgList(imgList)
                 .commentList(commentList)
+                .profileImg(profileImg)
                 .build();
     }
 }
