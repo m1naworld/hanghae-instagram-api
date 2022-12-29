@@ -8,12 +8,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommentMapper {
 
-    public Comment toDepthZeroComment(Posting posting, RequestComment requestDto, Long id,String nickName){
+    public Comment toDepthZeroComment(Posting posting, RequestComment requestDto, Long id,String nickName, String profileImg){
         return Comment.builder()
                 .content(requestDto.getComment())
                 .nickName(nickName)
                 .postingId(posting)
                 .memberId(id)
+                .profileImg(profileImg)
                 .build();
     }
 }

@@ -27,7 +27,7 @@ public class CommentService {
         Posting posting = checkPosting(postingId);
 
         /* 댓글 저장 */
-        Comment comment = commentMapper.toDepthZeroComment(posting, requestDto, member.getId(), member.getNickname());
+        Comment comment = commentMapper.toDepthZeroComment(posting, requestDto, member.getId(), member.getNickname(), member.getProfileImg());
         commentRepository.save(comment);
 
         return new ResponseComment(postingId, comment);
