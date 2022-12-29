@@ -16,4 +16,5 @@ public class ResponseMemberDto {
         this.followerCount = followerCount;
         this.followingCount = followingCount;
     }
+
 }

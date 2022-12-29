@@ -12,7 +12,11 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findByNickname(String nickname);
 
+
+    Optional<Member> findByKakaoId(Long kakaoId);
+
     @Modifying
     @Query("UPDATE member SET followingCount = ?1 WHERE id = ?2")
     void updateFollowingCount(int followingCount, Long memberId);
+
 }

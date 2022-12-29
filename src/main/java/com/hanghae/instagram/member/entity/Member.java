@@ -18,7 +18,7 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private Long kakaoId;
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -28,10 +28,10 @@ public class Member {
     @Column(nullable = false, unique = true)
     private String nickname;
 
-    @Column
-    private String profileImg;
-
     @Column(nullable = false)
+    private String  profileImg;
+
+    @Column
     private String username;
 
     @Column
@@ -49,6 +49,32 @@ public class Member {
         this.password = password;
         this.nickname = nickname;
         this.username = username;
+
+        this.profileImg = profileImg;
+    }
+
+    @Builder
+    public Member(String email, Long kakaoId, String password, String nickname, String username, String profileImg) {
+        this.email = email;
+        this.kakaoId = kakaoId;
+        this.password = password;
+        this.nickname = nickname;
+        this.username = username;
+        this.profileImg = profileImg;
+    }
+
+    public Member kakaoIdUpdate(Long kakaoId) {
+        this.kakaoId = kakaoId;
+        return this;
+    }
+
+    public void updateFollowerCount(int followerCount){
+        this.followerCount = followerCount;
+    }
+
+
+
+
 //        this.activated = activated;
         this.profileImg = profileImg;
     }
@@ -56,4 +82,5 @@ public class Member {
     public void updateFollowerCount(int followerCount){
         this.followerCount = followerCount;
     }
+
 }
