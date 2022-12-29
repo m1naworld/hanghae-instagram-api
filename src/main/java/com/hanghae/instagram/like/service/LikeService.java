@@ -21,8 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.hanghae.instagram.common.exception.ErrorCode.COMMENT_NOT_FOUND;
-import static com.hanghae.instagram.common.exception.ErrorCode.DUPLICATE_LIKE_CANCEL;
 import static com.hanghae.instagram.common.exception.ErrorCode.FORUM_NOT_FOUND;
+import static com.hanghae.instagram.common.exception.ErrorCode.LIKE_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +40,7 @@ public class LikeService {
         // 좋아요 취소
         if (like) {
             PostingLike postingLikeFind = postingLikeRepository.findPostingLikeByNicknameAndPostingId(nickname, postingId)
-                    .orElseThrow(() -> new CustomException(DUPLICATE_LIKE_CANCEL));
+                    .orElseThrow(() -> new CustomException(LIKE_NOT_FOUND));
 
             Posting posting = postingLikeFind.getPosting();
             int currentLikeCount = posting.getLikeCount() - 1;
@@ -72,7 +72,7 @@ public class LikeService {
         // 좋아요 취소
         if (like) {
             CommentLike commentLikeFind = commentLikeRepository.findCommentLikeByNicknameAndCommentId(nickname, commentId)
-                    .orElseThrow(() -> new CustomException(DUPLICATE_LIKE_CANCEL));
+                    .orElseThrow(() -> new CustomException(LIKE_NOT_FOUND));
 
             Comment comment = commentLikeFind.getComment();
             int currentLikeCount = comment.getLikeCount() - 1;

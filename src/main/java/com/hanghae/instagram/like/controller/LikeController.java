@@ -6,11 +6,13 @@ import com.hanghae.instagram.like.dto.RequestLikeDto;
 import com.hanghae.instagram.like.dto.ResponseLikeDto;
 import com.hanghae.instagram.like.service.LikeService;
 
+import com.hanghae.instagram.security.userdetails.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,9 +28,10 @@ public class LikeController {
 
     private final LikeService likeService;
 
-    @PostMapping("/posting/{postingId}")
-    public ResponseEntity<DataResponse<ResponseLikeDto>> changePostingLikeState(@PathVariable Long postingId, @RequestBody RequestLikeDto requestLike) {
-        String nickname = "mina"; // 임시
+    @PutMapping("/posting/{postingId}")
+    public ResponseEntity<DataResponse<ResponseLikeDto>> changePostingLikeState(@PathVariable Long postingId, @RequestBody RequestLikeDto requestLike,
+                                                                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        String nickname = userDetails.getNickname();
         ResponseLikeDto responseLike = likeService.changePostingLikeState(requestLike, postingId, nickname);
 
         if (responseLike.isLike()) {
@@ -37,9 +40,10 @@ public class LikeController {
         return DataResponse.toResponseEntity(LIKE_CANCEL_SUCCESS, responseLike);
     }
 
-    @PostMapping("/comment/{commentId}")
-    public ResponseEntity<DataResponse<ResponseLikeDto>> changeCommentLikeState(@PathVariable Long commentId, @RequestBody RequestLikeDto requestLike) {
-        String nickname = "mina"; // 임시
+    @PutMapping("/comment/{commentId}")
+    public ResponseEntity<DataResponse<ResponseLikeDto>> changeCommentLikeState(@PathVariable Long commentId, @RequestBody RequestLikeDto requestLike,
+                                                                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        String nickname = userDetails.getNickname();
         ResponseLikeDto responseLike = likeService.changeCommentLikeState(requestLike, commentId, nickname);
 
         if (responseLike.isLike()) {
