@@ -4,7 +4,6 @@ import com.hanghae.instagram.comment.dto.ResponseComment;
 import com.hanghae.instagram.comment.entity.Comment;
 import com.hanghae.instagram.comment.repository.CommentRepository;
 import com.hanghae.instagram.common.exception.CustomException;
-import com.hanghae.instagram.like.entity.CommentLike;
 import com.hanghae.instagram.like.repository.CommentLikeRepository;
 import com.hanghae.instagram.like.repository.PostingLikeRepository;
 import com.hanghae.instagram.member.entity.Member;
@@ -143,7 +142,7 @@ public class PostingService {
     public List<ResponseShowPostingDto> showPosting(Pageable pageable, String nickname){
         List<ResponseShowPostingDto> responseShowPostingDtoList = new ArrayList<>();
 
-        List<Posting> postingList = postingRepository.findAllByOrderByLikeCountDesc(pageable);
+        List<Posting> postingList = postingRepository.findAllByOrderByModifiedAtDesc(pageable);
         List<ShowPostingDto> showPostingDtoList = new ArrayList<>();
         for (Posting posting : postingList) {
             // 1. HashTag 정보 가져오기
