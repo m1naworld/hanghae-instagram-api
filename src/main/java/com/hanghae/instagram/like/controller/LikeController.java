@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +28,7 @@ public class LikeController {
 
     private final LikeService likeService;
 
-    @PostMapping("/posting/{postingId}")
+    @PutMapping("/posting/{postingId}")
     public ResponseEntity<DataResponse<ResponseLikeDto>> changePostingLikeState(@PathVariable Long postingId, @RequestBody RequestLikeDto requestLike,
                                                                                 @AuthenticationPrincipal UserDetailsImpl userDetails) {
         String nickname = userDetails.getNickname();
@@ -40,7 +40,7 @@ public class LikeController {
         return DataResponse.toResponseEntity(LIKE_CANCEL_SUCCESS, responseLike);
     }
 
-    @PostMapping("/comment/{commentId}")
+    @PutMapping("/comment/{commentId}")
     public ResponseEntity<DataResponse<ResponseLikeDto>> changeCommentLikeState(@PathVariable Long commentId, @RequestBody RequestLikeDto requestLike,
                                                                                 @AuthenticationPrincipal UserDetailsImpl userDetails) {
         String nickname = userDetails.getNickname();

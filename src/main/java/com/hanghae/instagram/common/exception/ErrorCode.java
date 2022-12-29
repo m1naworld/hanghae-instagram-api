@@ -15,7 +15,7 @@ public enum ErrorCode {
     INCORRECT_PASSWORD(BAD_REQUEST, "비밀번호가 일치하지 않습니다.", OK),
     REQUIRED_ALL(BAD_REQUEST,"모든 항목이 필수값입니다.", OK), // 에러코드 고민해봐야 겠음
 
-    DUPLICATE_LIKE_CANCEL(BAD_REQUEST, "이미 좋아요가 취소 되었습니다.", OK),
+    LIKE_NOT_FOUND(BAD_REQUEST, "이미 취소된 좋아요 입니다.", OK),
 
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
     JWT_NOT_FOUND(UNAUTHORIZED, "토큰이 존재하지 않습니다.", UNAUTHORIZED),

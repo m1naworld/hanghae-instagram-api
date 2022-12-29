@@ -19,17 +19,17 @@ public class Follow {
     @EmbeddedId
     private FollowCompositeKey id;
 
-    @MapsId("followingId")
+    @MapsId("memberId")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member following;
+    private Member member;
 
-    @MapsId("followerId")
+    @MapsId("myFollowingId")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member follower;
+    private Member myFollowing;
 
-    public Follow(FollowCompositeKey id, Member following, Member follower) {
+    public Follow(FollowCompositeKey id, Member member, Member myFollowing) {
         this.id = id;
-        this.following = following;
-        this.follower = follower;
+        this.member = member;
+        this.myFollowing = myFollowing;
     }
 }

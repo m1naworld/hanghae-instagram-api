@@ -25,6 +25,8 @@ public enum SuccessCode {
 
     CREATE_POSTING_SUCCESS(OK, "포스팅 등록 성공"),
     SHOW_POSTING_SUCCESS(OK, "전체 포스팅 조회 성공"),
+
+    SHOW_POSTING_DETAIL_SUCCESS(OK, "포스팅 상세 조회 성공"),
     CREATE_COMMENT_SUCCESS(OK, "댓글 작성 성공"),
     UPDATE_COMMENT_SUCCESS(OK, "댓글 수정 성공"),
     DELETE_COMMENT_SUCCESS(OK, "댓글 삭제 성공");

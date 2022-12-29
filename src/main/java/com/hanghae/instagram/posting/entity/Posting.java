@@ -1,5 +1,6 @@
 package com.hanghae.instagram.posting.entity;
 
+import com.hanghae.instagram.comment.entity.Comment;
 import com.hanghae.instagram.common.entity.Timestamped;
 import com.hanghae.instagram.like.entity.PostingLike;
 import com.hanghae.instagram.member.entity.Member;
@@ -39,8 +40,8 @@ public class Posting extends Timestamped {
 //    @OneToMany(mappedBy = "posting", fetch = FetchType.LAZY)
 //    private List<PostingImg> postingImgList = new ArrayList<>();
 //
-//    @OneToMany(mappedBy = "posting", fetch = FetchType.LAZY)
-//    private List<Comment> commentList = new ArrayList<>();
+    @OneToMany(mappedBy = "postingId", fetch = FetchType.LAZY)
+    private List<Comment> CommentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "posting", fetch = FetchType.LAZY)
     private List<PostingLike> postingLikeList = new ArrayList<>();

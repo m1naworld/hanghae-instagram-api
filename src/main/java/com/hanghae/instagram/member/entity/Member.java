@@ -55,9 +55,6 @@ public class Member {
 
     public void updateFollowingCount(int followingCount) {
         this.followingCount = followingCount;
-    }
-
-    public void updateFollowerCount(int followerCount) {
-        this.followerCount = followerCount;
+   
     }
 }
