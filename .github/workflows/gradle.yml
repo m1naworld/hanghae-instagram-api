@@ -49,6 +49,13 @@ jobs:
           OCCUPY_SECRET1_DIR_FILE_NAME: application-config.properties
         run: echo $OCCUPY_SECRET1 | base64 --decode > $OCCUPY_SECRET1_DIR/$OCCUPY_SECRET1_DIR_FILE_NAME
 
+      - name: Copy Secret2
+        env:
+          OCCUPY_SECRET1: ${{ secrets.OCCUPY_SECRET2 }}
+          OCCUPY_SECRET1_DIR: src/main/resources
+          OCCUPY_SECRET1_DIR_FILE_NAME: application-kakao.properties
+        run: echo $OCCUPY_SECRET2 | base64 --decode > $OCCUPY_SECRET2_DIR/$OCCUPY_SECRET2_DIR_FILE_NAME
+
       # (3) Gradle 권한 설정
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
