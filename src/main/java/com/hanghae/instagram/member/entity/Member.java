@@ -69,6 +69,4 @@ public class Member {
         this.followerCount = followerCount;
     }
 
-
-
 }
