@@ -19,6 +19,7 @@ public class ShowPostingDto {
     private String createdAt;
     private String modifiedAt;
     private List<ShowPostingImgDto> imgList;
+    private String profileImg;
 
     public ResponseShowPostingDto toResponse(){
         return ResponseShowPostingDto.builder()
@@ -33,6 +34,7 @@ public class ShowPostingDto {
                 .createdAt(createdAt)
                 .modifiedAt(modifiedAt)
                 .imgList(imgList)
+                .profileImg(profileImg)
                 .build();
     }
 }

@@ -87,6 +87,7 @@ public class ShowPostingMapper {
                 .createdAt(dateTimeConverter(posting.getCreatedAt()))
                 .modifiedAt(dateTimeConverter(posting.getModifiedAt()))
                 .imgList(imgList)
+                .profileImg(posting.getMember().getProfileImg())
                 .build();
     }
     public ShowPostingDetailsDto toDto(Posting posting, List<ShowPostingImgDto> imgList,
@@ -105,6 +106,7 @@ public class ShowPostingMapper {
                 .modifiedAt(dateTimeConverter(posting.getModifiedAt()))
                 .imgList(imgList)
                 .commentList(responseCommentList)
+                .profileImg(posting.getMember().getProfileImg())
                 .build();
     }
     public ShowPostingBriefDto toDto(Posting posting, PostingImg postingImg){
