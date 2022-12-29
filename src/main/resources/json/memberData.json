@@ -2,26 +2,31 @@
   {
     "email": "user1@test",
     "nickname": "user1",
-    "password": "qwe123!@#"
+    "password": "qwe123!@#",
+    "username" : "username1"
   },
   {
     "email": "user2@test",
     "nickname": "user2",
-    "password": "qwe123!@#"
+    "password": "qwe123!@#",
+    "username" : "username2"
   },
   {
     "email": "user3@test",
     "nickname": "user3",
-    "password": "qwe123!@#"
+    "password": "qwe123!@#",
+    "username" : "username3"
   },
   {
     "email": "user4@test",
     "nickname": "user4",
-    "password": "qwe123!@#"
+    "password": "qwe123!@#",
+    "username" : "username4"
   },
   {
     "email": "user5@test",
     "nickname": "user5",
-    "password": "qwe123!@#"
+    "password": "qwe123!@#",
+    "username" : "username5"
   }
 ]

@@ -1,13 +1,12 @@
 package com.hanghae.instagram.posting.service;
 
+import com.hanghae.instagram.comment.dto.ResponseComment;
 import com.hanghae.instagram.common.exception.CustomException;
 import com.hanghae.instagram.member.entity.Member;
 import com.hanghae.instagram.member.repository.MemberRepository;
 import com.hanghae.instagram.posting.dto.createPosting.CreatePostingDto;
-import com.hanghae.instagram.posting.dto.showPosting.ResponseShowPostingDto;
-import com.hanghae.instagram.posting.dto.showPosting.ShowPostingDto;
-import com.hanghae.instagram.posting.dto.showPosting.ShowPostingImgDto;
-import com.hanghae.instagram.posting.dto.showPosting.ShowPostingImgMemberTagDto;
+import com.hanghae.instagram.posting.dto.hashtag.ResponseShowPostingByHashTagDto;
+import com.hanghae.instagram.posting.dto.showPosting.*;
 import com.hanghae.instagram.posting.entity.*;
 import com.hanghae.instagram.posting.mapper.CreatePostingMapper;
 import com.hanghae.instagram.posting.mapper.ShowPostingMapper;
@@ -22,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.hanghae.instagram.common.exception.ErrorCode.MEMBER_NOT_FOUND;
+import static com.hanghae.instagram.common.exception.ErrorCode.FORUM_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +36,7 @@ public class PostingService {
 
     private final CreatePostingMapper createPostingMapper;
     private final ShowPostingMapper showPostingMapper;
+    private final TagExctractor tagExctractor;
 
     @Transactional
     public void createPosting(CreatePostingDto createPostingDto, String email) {
@@ -59,7 +60,7 @@ public class PostingService {
                 postingImgMemberTagRepository.save(postingImgMemberTag);
             }
         }
-        // 5. 게시글 회원태그 Entity 생성
+        // 5. 게시글 회원태그 Entity 생성 (FE에서 보내준 정보)
         for (int i = 0; i < createPostingDto.getMembertagList().size(); i++) {
             PostingMemberTag postingMemberTag = createPostingMapper.toEntity(
                     createPostingDto.getMembertagList().get(i),
@@ -67,7 +68,14 @@ public class PostingService {
             );
             postingMemberTagRepository.save(postingMemberTag);
         }
-        // 6. 게시글 해쉬태그 Entity 생성
+        // 5-1. 게시글 회원태그 Entity 생성 및 저장 (BE에서 분석한 정보)
+        List<String> membertagList = tagExctractor.extractMemberTags(createPostingDto.getContents());
+        for (String s : membertagList) {
+            PostingMemberTag postingMemberTag = createPostingMapper.toEntity(s, posting);
+            postingMemberTagRepository.save(postingMemberTag);
+        }
+
+        // 6. 게시글 해쉬태그 Entity 생성 (FE에서 보내준 정보)
         for (int i = 0; i < createPostingDto.getHashtagList().size(); i++) {
             PostingHashTag postingHashTag = new PostingHashTag(
                     createPostingDto.getHashtagList().get(i),
@@ -75,13 +83,19 @@ public class PostingService {
             );
             postingHashTagRepository.save(postingHashTag);
         }
+        // 6-1. 게시글 해쉬 태그 Entity 생성 및 저장 (BE에서 분석한 정보)
+        List<String> hashtagList = tagExctractor.extractHashTags(createPostingDto.getContents());
+        for (String s : hashtagList) {
+            PostingHashTag postingHashTag = new PostingHashTag(s, posting);
+            postingHashTagRepository.save(postingHashTag);
+        }
     }
 
     @Transactional(readOnly = true)
-    public List<ResponseShowPostingDto> showPosting(Pageable pageable){
+    public List<ResponseShowPostingDto> showPosting(Pageable pageable, String nickname){
         List<ResponseShowPostingDto> responseShowPostingDtoList = new ArrayList<>();
 
-        List<Posting> postingList = postingRepository.findAllByOrderByLikeCount(pageable);
+        List<Posting> postingList = postingRepository.findAllByOrderByLikeCountDesc(pageable);
         List<ShowPostingDto> showPostingDtoList = new ArrayList<>();
         for (Posting posting : postingList) {
             // 1. HashTag 정보 가져오기
@@ -116,7 +130,7 @@ public class PostingService {
             }
 
             // 4. ShowPostingDto 형식으로 변환하고 리스트에 추가하기
-            showPostingDtoList.add(showPostingMapper.toDto(posting, imgList, hashtagList, membertagList));
+            showPostingDtoList.add(showPostingMapper.toDto(posting, imgList, hashtagList, membertagList, nickname));
         }
 
         for (ShowPostingDto showPostingDto : showPostingDtoList) {
@@ -126,4 +140,66 @@ public class PostingService {
         return responseShowPostingDtoList;
     }
 
+    @Transactional(readOnly = true)
+    public ResponseShowPostingDetailsDto showPostingDetails (long postingId, String nickname){
+        Posting posting = postingRepository.findById(postingId)
+                .orElseThrow(()->new CustomException(FORUM_NOT_FOUND));
+
+        // 1. HashTag 정보 가져오기
+        List<PostingHashTag> postingHashTagList
+                = postingHashTagRepository.findAllByPostingId(posting.getId());
+        List<String> hashtagList = new ArrayList<>();
+        for (PostingHashTag postingHashTag : postingHashTagList) {
+            hashtagList.add(postingHashTag.getHashtag());
+        }
+
+        // 2. MemberTag 정보 가져오기
+        List<PostingMemberTag> postingMemberTagList
+                = postingMemberTagRepository.findAllByPostingId(posting.getId());
+        List<String> membertagList = new ArrayList<>();
+        for (PostingMemberTag postingMemberTag : postingMemberTagList) {
+            membertagList.add(postingMemberTag.getMemberNickname());
+        }
+
+        // 3. PostingImg 정보 가져오기
+        List<PostingImg> postingImgList = postingImgRepository.findAllByPostingId(posting.getId());
+        List<ShowPostingImgDto> imgList = new ArrayList<>();
+        for (PostingImg postingImg : postingImgList) {
+            List<PostingImgMemberTag> postingImgMemberTagList
+                    = postingImgMemberTagRepository.findAllByPostingImgId(postingImg.getId());
+            List<ShowPostingImgMemberTagDto> showPostingImgMemberTagDtoList = new ArrayList<>();
+            for (PostingImgMemberTag postingImgMemberTag : postingImgMemberTagList) {
+                showPostingImgMemberTagDtoList.add(
+                        showPostingMapper.toDto(postingImgMemberTag)
+                );
+            }
+            imgList.add(showPostingMapper.toDto(postingImg, showPostingImgMemberTagDtoList));
+        }
+
+        // 4. Comment 정보 가져오기
+        List<ResponseComment> responseCommentList = new ArrayList<>();
+        for (int i = 0; i < posting.getCommentList().size(); i++) {
+            responseCommentList.add(new ResponseComment(posting.getId(), posting.getCommentList().get(i)));
+        }
+
+        return showPostingMapper
+                .toDto(posting, imgList, hashtagList, membertagList, nickname, responseCommentList)
+                .toResponse();
+    }
+    @Transactional(readOnly = true)
+    public ResponseShowPostingByHashTagDto showPostingByHashTag (Pageable pageable, String hashtag) {
+        List<PostingHashTag> postingHashTagList = postingHashTagRepository.findAllByHashtag(hashtag, pageable);
+        List<ShowPostingBriefDto> showPostingBriefDtoList = new ArrayList<>();
+
+        for (PostingHashTag postingHashTag : postingHashTagList) {
+            PostingImg postingImg = postingImgRepository.findByPostingAndPostingImgNum(postingHashTag.getPosting(), 1);
+            showPostingBriefDtoList.add(showPostingMapper.toDto(postingHashTag.getPosting(), postingImg));
+        }
+
+        return ResponseShowPostingByHashTagDto.builder()
+                .hashtag(hashtag)
+                .postingCount(postingHashTagList.size())
+                .postingBriefList(showPostingBriefDtoList)
+                .build();
+    }
 }
