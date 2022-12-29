@@ -51,6 +51,7 @@ public class WebSecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin("http://152.69.229.168:86/");
         configuration.addAllowedOrigin("https://hanghaecatsanddogs.s3.ap-northeast-2.amazonaws.com/");
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","PATCH","DELETE")); // 허용할 Http Method
         configuration.addAllowedHeader("*");
