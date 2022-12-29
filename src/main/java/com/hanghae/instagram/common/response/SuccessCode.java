@@ -13,6 +13,7 @@ public enum SuccessCode {
     // User
     SIGNUP_USER_SUCCESS(OK, "회원 가입 성공"),
     LOGIN_USER_SUCCESS(OK, "유저 로그인 성공"),
+    LOGIN_KAKAO_SUCCESS(OK, "카카오 로그인 성공"),
 
     MEMBER_SUCCESS(OK, "멤버 정보 요청 성공"),
     // Like
