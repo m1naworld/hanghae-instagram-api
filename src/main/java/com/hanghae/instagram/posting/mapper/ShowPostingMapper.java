@@ -1,10 +1,8 @@
 package com.hanghae.instagram.posting.mapper;
 
 import com.hanghae.instagram.comment.dto.ResponseComment;
-import com.hanghae.instagram.posting.dto.showPosting.ShowPostingDetailsDto;
-import com.hanghae.instagram.posting.dto.showPosting.ShowPostingDto;
-import com.hanghae.instagram.posting.dto.showPosting.ShowPostingImgDto;
-import com.hanghae.instagram.posting.dto.showPosting.ShowPostingImgMemberTagDto;
+import com.hanghae.instagram.posting.dto.hashtag.ShowPostingByHashTagDto;
+import com.hanghae.instagram.posting.dto.showPosting.*;
 import com.hanghae.instagram.posting.entity.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -107,6 +105,23 @@ public class ShowPostingMapper {
                 .modifiedAt(dateTimeConverter(posting.getModifiedAt()))
                 .imgList(imgList)
                 .commentList(responseCommentList)
+                .build();
+    }
+    public ShowPostingBriefDto toDto(Posting posting, PostingImg postingImg){
+        return ShowPostingBriefDto.builder()
+                .id(posting.getId())
+                .postingImg(postingImg.getPostingImg())
+                .likeCount(posting.getLikeCount())
+                .commentCount(posting.getCommentList().size())
+                .build();
+    }
+
+    public ShowPostingByHashTagDto toDto(String hashtag, long postingCount,
+                                         List<ShowPostingBriefDto> showPostingBriefDtoList){
+        return ShowPostingByHashTagDto.builder()
+                .hashtag(hashtag)
+                .postingCount(postingCount)
+                .showPostingBriefDtoList(showPostingBriefDtoList)
                 .build();
     }
 }
