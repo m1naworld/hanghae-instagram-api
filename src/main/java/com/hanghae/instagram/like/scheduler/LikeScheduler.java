@@ -2,9 +2,16 @@ package com.hanghae.instagram.like.scheduler;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import net.javacrumbs.shedlock.core.LockProvider;
+import net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateLockProvider;
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 
 import com.hanghae.instagram.comment.repository.CommentRepository;
 import com.hanghae.instagram.like.repository.CommentLikeRepository;
@@ -22,7 +29,15 @@ public class LikeScheduler {
 	private final PostingRepository postingRepository;
 	private final CommentRepository commentRepository;
 
+	@Bean
+	public LockProvider lockProvider(DataSource dataSource) {
+		return new JdbcTemplateLockProvider(dataSource);
+	}
+
+	private static final String SEC_30 = "PT30S";
+
 	@Transactional
+	@SchedulerLock(name = "runScenarioOneTime", lockAtMostFor = SEC_30, lockAtLeastFor = SEC_30)
 	@Scheduled(cron = "0 30 4 L * ?")
 	public void LikeCountSch() {
 
